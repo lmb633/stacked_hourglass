@@ -1,0 +1,9 @@
+.idea/*
+.vcscode/*
+models/weights/*
+test_imgs/*
+*/__pycache__
+*/*/__pycache__
+data/*
+__pycache__
+BEST_checkpoint.tar
