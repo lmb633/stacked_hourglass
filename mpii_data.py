@@ -95,7 +95,6 @@ def setup_val_split():
 def get_img(idx):
     imgname, __, __, __, __, __ = mpii.getAnnots(idx)
     path = os.path.join(img_dir, imgname)
-    print(path)
     img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img

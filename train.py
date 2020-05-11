@@ -86,12 +86,11 @@ heat_weight = 46 * 46 * 15 / 1.0
 def train_once(trainloader, model, criterion, optimizer, epoch, args):
     losses = AverageMeter()
     model.train()
-    for i, (img, heatmap, centermap) in enumerate(trainloader):
+    for i, (img, heatmap) in enumerate(trainloader):
         img = img.to(device)
         heatmap = heatmap.to(device)
-        centermap = centermap.to(device)
 
-        pred_heatmap = model(img, centermap)
+        pred_heatmap = model(img)
         loss = 0
         for i in range(len(pred_heatmap)):
             loss += criterion(pred_heatmap[i], heatmap) * heat_weight
