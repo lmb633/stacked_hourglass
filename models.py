@@ -23,11 +23,11 @@ class PoseNet(nn.Module):
             Residual(128, 128),
             Residual(128, in_channel)
         )
-        self.hourglass = [nn.Sequential(Hourglass(layer, in_channel, inc=increase)) for _ in range(nstack)]
-        self.feature = [nn.Sequential(Residual(in_channel, in_channel), Conv(in_channel, in_channel, 1, bn=True, relu=True)) for _ in range(nstack)]
-        self.outs = [Conv(in_channel, out_channel, 1, bn=False, relu=False) for _ in range(nstack)]
-        self.merge_feature = [Convert(in_channel, in_channel) for _ in range(nstack - 1)]
-        self.merge_pred = [Convert(out_channel, in_channel) for _ in range(nstack - 1)]
+        self.hourglass = nn.ModuleList([nn.Sequential(Hourglass(layer, in_channel, inc=increase)) for _ in range(nstack)])
+        self.feature = nn.ModuleList([nn.Sequential(Residual(in_channel, in_channel), Conv(in_channel, in_channel, 1, bn=True, relu=True)) for _ in range(nstack)])
+        self.outs = nn.ModuleList([Conv(in_channel, out_channel, 1, bn=False, relu=False) for _ in range(nstack)])
+        self.merge_feature = nn.ModuleList([Convert(in_channel, in_channel) for _ in range(nstack - 1)])
+        self.merge_pred = nn.ModuleList([Convert(out_channel, in_channel) for _ in range(nstack - 1)])
 
     def forward(self, x):
         x = self.pre(x)
