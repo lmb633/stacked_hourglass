@@ -100,7 +100,7 @@ class mpii_dataset(torch.utils.data.Dataset):
         ## generate heatmaps on outres
         heatmaps = self.generateHeatmap(keypoints)
         # inp.transpose
-        return inp.astype(np.float32), heatmaps.astype(np.float32)
+        return torch.tensor(inp.astype(np.float32)).permute(2, 0, 1), torch.tensor(heatmaps.astype(np.float32))
 
     def preprocess(self, data):
         # random hue and saturation
@@ -146,7 +146,8 @@ if __name__ == '__main__':
 
     from PIL import Image
 
-    img = img * 255
+    img = img.permute(1,2,0) * 255
+    print(img.shape)
     img = Image.fromarray(np.uint8(img))
     img.show()
 

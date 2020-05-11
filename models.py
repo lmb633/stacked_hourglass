@@ -13,7 +13,7 @@ class Convert(nn.Module):
 
 
 class PoseNet(nn.Module):
-    def __init__(self, nstack=8, layer=4, in_channel=256, out_channel=15, increase=0):
+    def __init__(self, nstack=8, layer=4, in_channel=256, out_channel=16, increase=0):
         super(PoseNet, self).__init__()
         self.nstack = nstack
         self.pre = nn.Sequential(
