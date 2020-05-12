@@ -4,11 +4,6 @@ import cv2
 import os
 import time
 
-
-def _isArrayLike(obj):
-    return hasattr(obj, '__iter__') and hasattr(obj, '__len__')
-
-
 annot_dir = 'data/mpii_dataset/joints'
 img_dir = 'data/mpii_dataset/images'
 
@@ -127,3 +122,10 @@ def get_center(idx):
 def get_scale(idx):
     __, __, __, __, s, __ = mpii.getAnnots(idx)
     return s
+
+
+if __name__ == '__main__':
+    train_f = h5py.File(os.path.join(annot_dir, 'train.h5'), 'r')
+    val_f = h5py.File(os.path.join(annot_dir, 'valid.h5'), 'r')
+    print(train_f['center'])
+    print(val_f['center'])

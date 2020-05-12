@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('--optimizer', default='sgd', help='optimizer')
     parser.add_argument('--weight_decay', type=float, default=5e-4, help='weight decay')
     parser.add_argument('--mom', type=float, default=0.9, help='momentum')
-    parser.add_argument('--batch_size', type=int, default=16, help='batch size in each context')
+    parser.add_argument('--batch_size', type=int, default=32, help='batch size in each context')
     parser.add_argument('--checkpoint', type=str, default='BEST_checkpoint.tar', help='checkpoint')
     parser.add_argument('--print_freq', type=int, default=100, help='checkpoint')
     parser.add_argument('--shrink_factor', type=float, default=0.5, help='checkpoint')
@@ -92,8 +92,8 @@ def train_once(trainloader, model, criterion, optimizer, epoch, args):
 
         pred_heatmap = model(img)
         loss = 0
-        for i in range(len(pred_heatmap)):
-            loss += criterion(pred_heatmap[i], heatmap) * heat_weight
+        for j in range(len(pred_heatmap)):
+            loss += criterion(pred_heatmap[j], heatmap) * heat_weight
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
