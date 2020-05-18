@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     from PIL import Image
 
-    img = img.permute(1,2,0) * 255
+    img = img.permute(1, 2, 0) * 255
     print(img.shape)
     img = Image.fromarray(np.uint8(img))
     img.show()
