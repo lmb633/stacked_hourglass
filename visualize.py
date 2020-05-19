@@ -24,7 +24,7 @@ def get_kpts(maps, img_h=368.0, img_w=368.0):
     map_6 = maps[0]
 
     kpts = []
-    for m in map_6[1:]:
+    for m in map_6:
         h, w = np.unravel_index(m.argmax(), m.shape)
         x = int(w * img_w / m.shape[1])
         y = int(h * img_h / m.shape[0])
@@ -75,21 +75,21 @@ def draw_paint(img_path, kpts):
     idx += 1
 
 
-def test_example(model, img_path, kpts):
-    print(kpts)
-    img = cv2.imread(img_path)
-    h, w = img.shape[0:2]
-    img = np.array(cv2.resize(img, (256, 256)), dtype=np.float32)
-    img = torch.from_numpy(img.transpose((2, 0, 1)))
-    # cv2.circle(img, (int(center_x), int(center_y)), radius=3, thickness=3, color=(0, 0, 255))
-    # cv2.imshow('', img)
-    # cv2.waitKey(0)
-    # normalize
-    mean = [128.0, 128.0, 128.0]
-    std = [256.0, 256.0, 256.0]
-    for t, m, s in zip(img, mean, std):
-        # t.sub_(m).div_(s)
-        t.div_(s)
+def test_example(model, img_path, kpts0):
+    # print(kpts0)
+    # img = cv2.imread(img_path)
+    # h, w = img.shape[0:2]
+    # img = np.array(cv2.resize(img, (256, 256)), dtype=np.float32)
+    # img = torch.from_numpy(img.transpose((2, 0, 1)))
+    # # cv2.circle(img, (int(center_x), int(center_y)), radius=3, thickness=3, color=(0, 0, 255))
+    # # cv2.imshow('', img)
+    # # cv2.waitKey(0)
+    # # normalize
+    # mean = [128.0, 128.0, 128.0]
+    # std = [256.0, 256.0, 256.0]
+    # for t, m, s in zip(img, mean, std):
+    #     # t.sub_(m).div_(s)
+    #     t.div_(s)
     img = torch.unsqueeze(img, 0)
 
     heat = model(img)
@@ -99,8 +99,8 @@ def test_example(model, img_path, kpts):
     print(kpts)
     kpts = get_kpts(heat[-1], img_h=h, img_w=w)
     print(kpts)
-
     draw_paint(img_path, kpts)
+    draw_paint(img_path, kpts0)
 
 
 def visualize(model=None):
@@ -109,7 +109,7 @@ def visualize(model=None):
         model = checkpoint['model']
 
     train, valid = ds.setup_val_split()
-    sample = random.sample(list(valid), 32)
+    sample = random.sample(list(train), 32)
     for idx in sample:
         img_path = ds.get_path(idx)
         kpts = ds.get_kps(idx)

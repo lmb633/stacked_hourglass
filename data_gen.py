@@ -141,21 +141,21 @@ if __name__ == '__main__':
     img, heatmap = train_set[0]
     print(img.shape)
     print(heatmap.shape)
-    # cv2.imshow('',img)
-    # cv2.waitKey(0)
+    cv2.imshow('',img.permute(1,2,0).numpy())
+    cv2.waitKey(0)
 
-    from PIL import Image
-
-    img = img.permute(1, 2, 0) * 255
-    print(img.shape)
-    img = Image.fromarray(np.uint8(img))
-    img.show()
-
-    heatmap = heatmap * 255
-    for i in range(len(heatmap)):
-        hm = heatmap[i, :, :]
-        hm = Image.fromarray(np.uint8(hm))
-        hm.show()
+    # from PIL import Image
+    #
+    # img = img.permute(1, 2, 0) * 255
+    # print(img.shape)
+    # img = Image.fromarray(np.uint8(img))
+    # img.show()
+    #
+    # heatmap = heatmap * 255
+    # for i in range(len(heatmap)):
+    #     hm = heatmap[i, :, :]
+    #     hm = Image.fromarray(np.uint8(hm))
+    #     hm.show()
 
         # from PIL import Image
         # import numpy
